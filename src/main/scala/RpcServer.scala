@@ -33,7 +33,6 @@ class RpcServer(mods: Map[String, Map[String, RpcMethodCall => Future[JsValue]]]
   val b = new ServerBootstrap()
   b.group(bossGroup, workerGroup)
     .channel(classOf[NioServerSocketChannel])
-    .option(ChannelOption.SO_BACKLOG, int2Integer(100))
     .option(ChannelOption.SO_TIMEOUT, int2Integer(5 * 1000))
     .option(ChannelOption.TCP_NODELAY, boolean2Boolean(true))
     .handler(new LoggingHandler(LogLevel.DEBUG))
