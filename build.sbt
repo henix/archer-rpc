@@ -4,7 +4,7 @@ name := "archer-rpc"
 
 description := "A Scala async RPC server based on netty"
 
-version in Global := "0.2.2"
+version in Global := "0.2.3"
 
 licenses in Global := Seq("3-clause BSD" -> url("http://opensource.org/licenses/BSD-3-Clause"))
 
@@ -26,6 +26,7 @@ lazy val root = project.in(file(".")).dependsOn(macros % "compile-internal, test
 
 libraryDependencies ++= Seq(
   "io.netty" % "netty-all" % "4.0.25.Final",
+  "io.spray" %%  "spray-json" % "1.3.1",
   "org.slf4j" % "slf4j-api" % "1.7.10" % "provided"
 )
 
