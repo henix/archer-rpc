@@ -25,12 +25,12 @@ object Rpc {
 
 class RpcServer(mods: Map[String, Map[String, RpcMethodCall => Future[JsValue]]], host: String, port: Int)(implicit execctx: ExecutionContext) {
 
-  val bossGroup = new NioEventLoopGroup(1)
-  val workerGroup = new NioEventLoopGroup()
+  private val bossGroup = new NioEventLoopGroup(1)
+  private val workerGroup = new NioEventLoopGroup()
 
-  val dispatcher = new RpcDispatcher(mods)
+  private val dispatcher = new RpcDispatcher(mods)
 
-  val b = new ServerBootstrap()
+  private val b = new ServerBootstrap()
   b.group(bossGroup, workerGroup)
     .channel(classOf[NioServerSocketChannel])
     .option(ChannelOption.SO_TIMEOUT, int2Integer(5 * 1000))
@@ -46,7 +46,7 @@ class RpcServer(mods: Map[String, Map[String, RpcMethodCall => Future[JsValue]]]
     }
   })
 
-  val f = b.bind(host, port).sync()
+  private val f = b.bind(host, port).sync()
 
   def join(): Unit = {
     f.channel().closeFuture().sync()

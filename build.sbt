@@ -4,7 +4,7 @@ name := "archer-rpc"
 
 description := "A Scala async RPC server based on netty"
 
-version in Global := "0.2.1"
+version in Global := "0.2.2"
 
 licenses in Global := Seq("3-clause BSD" -> url("http://opensource.org/licenses/BSD-3-Clause"))
 
