@@ -23,7 +23,7 @@ object Rpc {
   def genModule[T]: Map[String, RpcMethodCall => Future[JsValue]] = macro RpcMacros.genModule_impl[T]
 }
 
-class RpcServer(mods: Map[String, Map[String, RpcMethodCall => Future[JsValue]]], host: String, port: Int)(implicit execctx: ExecutionContext) {
+class RpcServer(mods: Map[String, Map[String, RpcMethodCall => Future[JsValue]]], host: String, port: Int, maxLength: Int = 4096)(implicit execctx: ExecutionContext) {
 
   private val bossGroup = new NioEventLoopGroup(1)
   private val workerGroup = new NioEventLoopGroup()
@@ -39,7 +39,7 @@ class RpcServer(mods: Map[String, Map[String, RpcMethodCall => Future[JsValue]]]
     .childHandler(new ChannelInitializer[SocketChannel]() {
     override def initChannel(ch: SocketChannel) {
       val p = ch.pipeline()
-      p.addLast(new LineBasedFrameDecoder(2048))
+      p.addLast(new LineBasedFrameDecoder(maxLength))
       p.addLast(new StringDecoder(StandardCharsets.UTF_8))
       p.addLast(new StringEncoder(StandardCharsets.UTF_8))
       p.addLast(dispatcher)
